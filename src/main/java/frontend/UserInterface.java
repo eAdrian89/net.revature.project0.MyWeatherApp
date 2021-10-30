@@ -46,8 +46,9 @@ public class UserInterface {
     public void checkWeather() throws InterruptedException, URISyntaxException, IOException {
         System.out.println("Enter City");
         Scanner scanner = new Scanner(System.in);
-        String city = scanner.next();
-        if ((Pattern.matches("[a-zA-Z]+", city) || city.length() <= 2)) {
+        String city = scanner.nextLine();
+        city = city.replaceAll(" ", "+");
+        if ((Pattern.matches("[a-zA-Z+]+", city) || city.length() <= 2)) {
             System.out.print("Checking current weather please wait");
             TimeUnit.MILLISECONDS.sleep(500);
             System.out.print(".");
