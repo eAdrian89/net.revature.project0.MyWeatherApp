@@ -1,67 +1,103 @@
 package frontend;
 
-import backend.WeatherClient;
-
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Scanner;
+import backend.Controllers.CurrentWeatherService;
+import backend.HttpCilents.OpenWeather.OpenWeatherClient;
+import backend.HttpCilents.WeatherBit.WeatherBitClient;
+import backend.HttpCilents.WeatherStack.WeatherStackClient;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
+
 
 public class UserInterface {
+    private InputValidator inputValidator;
+    private OpenWeatherClient openWeatherClient;
+    private WeatherBitClient weatherBitClient;
+    private WeatherStackClient weatherStackClient;
+    private CurrentWeatherService currentWeatherService;
 
-    public void ui() throws InterruptedException, URISyntaxException, IOException {
-        System.out.println("Welcome to MyWeather!");
-        TimeUnit.SECONDS.sleep(1);
-        System.out.println("What do you want to do?");
+    private final String CHECK_CURRENT_WEATHER = "Enter City Name to check current weather";
+    private final String CHECK_5_DAY_FORECAST = "Enter City Name to check 5 day forecast";
+    private final String CHECK_PREVIOUS_REQUESTS = "Previous server responses";
+    private final String CLOSE_APP_MESSAGE = "\nThank you for your time \n" + "Good Bay!";
+    private final String WELCOME_MESSAGE = "\n" +
+            "==================================================================== \n" +
+            "Welcome to the [ϟϟϟ WEATHER SERVICE ϟϟϟ], what would you like to do? \n" +
+            "====================================================================";
 
-        Scanner scanner = new Scanner(System.in);
-        String menu = "1 - Check current weather\n"
-                + "2 - Check daily forecast\n"
-                + "3 - Close application\n";
+    private final String MAIN_MENU = "\n" +
+            Color.BLUE + "1 => Check current Weather \n" + Color.RESET +
+            Color.BLUE + "2 => Check 5 day forecast \n" + Color.RESET +
+            Color.BLUE + "3 => Check search history \n" + Color.RESET +
+            Color.RED + "4 => Close the application \n" + Color.RESET +
+            Color.RESET + "↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ " + "\n";
 
-        char response;
-        do {
-            System.out.println(menu);
-            response = scanner.next().charAt(0);
-            switch (response) {
-                case '1':
-                    checkWeather();
+    public UserInterface(InputValidator inputValidator, OpenWeatherClient openWeatherClient, WeatherBitClient weatherBitClient, WeatherStackClient weatherStackClient, CurrentWeatherService currentWeatherService) {
+        this.inputValidator = inputValidator;
+        this.openWeatherClient = openWeatherClient;
+        this.weatherBitClient = weatherBitClient;
+        this.weatherStackClient = weatherStackClient;
+        this.currentWeatherService = currentWeatherService;
+    }
+
+    public void showMainMenu(){
+        System.out.println(WELCOME_MESSAGE);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        while (true) {
+            System.out.println(MAIN_MENU);
+            int userInput = inputValidator.retrievesInteger();
+
+            switch (userInput){
+                case 1:
+                   checkCurrentWeather();
                     break;
-                case '2':
-                    //TODO
+                case 2:
+                    checkFiveDayForecast();
                     break;
-                case '3':
-                    System.out.println("Closing Down Bye Bye");
-                    System.exit(0);
-                default:
-                    System.out.print("Incorrect input, try again \n \n");
-                    TimeUnit.SECONDS.sleep(1);
+                case 3:
+                    checkSearchHistory();
+                    break;
+                case 4:
+                    System.out.println(CLOSE_APP_MESSAGE);
+                    return;
             }
-        } while (response != 1 || response != 2 || response != 3);
-
+        }
     }
 
-    public void checkWeather() throws InterruptedException, URISyntaxException, IOException {
-        System.out.println("Enter City");
-        Scanner scanner = new Scanner(System.in);
-        String city = scanner.nextLine();
-        city = city.replaceAll(" ", "+");
-        if ((Pattern.matches("[a-zA-Z+]+", city) || city.length() <= 2)) {
-            System.out.print("Checking current weather please wait");
-            TimeUnit.MILLISECONDS.sleep(500);
-            System.out.print(".");
-            TimeUnit.MILLISECONDS.sleep(500);
-            System.out.print(".");
-            TimeUnit.MILLISECONDS.sleep(500);
-            System.out.print(".\n\n");
-
-            WeatherClient weatherClient = new WeatherClient();
-            weatherClient.currentWeatherClient(city);
-
-        } else
-            System.out.println("Entered value is not valid try again");
+    private void checkSearchHistory() {
     }
+
+    private void checkFiveDayForecast() {
+    }
+
+    private void checkCurrentWeather() {
+        System.out.println(CHECK_CURRENT_WEATHER);
+        String cityName = inputValidator.retrieveAndValidateLocation();
+        System.out.print("Checking current weather please wait");
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.print(".");
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.print(".");
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.print(".\n\n");
+        String current = currentWeatherService.getOpenWeatherCurrentWeather(cityName) + currentWeatherService.getWeatherStackCurrentWeather(cityName) + currentWeatherService.getWeatherBitCurrentWeather(cityName);
+        System.out.println(current);
+    }
+
+
 }
 

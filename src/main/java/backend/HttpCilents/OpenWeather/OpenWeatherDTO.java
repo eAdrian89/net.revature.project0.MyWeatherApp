@@ -1,10 +1,10 @@
-package backend;
+package backend.HttpCilents.OpenWeather;
 import lombok.*;
 import java.util.ArrayList;
 
 
 @Data
-public class OpenWeather {
+public class OpenWeatherDTO {
     private ArrayList<Weather> weather = new ArrayList<>();
     private Main main;
     private Wind wind;
@@ -17,15 +17,15 @@ public class OpenWeather {
 
     @Data
     class Main {
-        private String temp;
-        private String pressure;
-        private String humidity;
+        private float temp;
+        private float pressure;
+        private float humidity;
     }
 
     @Data
     class Wind {
-        private String speed;
-        private String deg;
+        private float speed;
+        private float deg;
     }
 
 }
