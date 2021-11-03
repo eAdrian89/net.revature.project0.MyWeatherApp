@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class InputValidator {
     private Scanner scanner = new Scanner(System.in);
-    private final String WARNING_ONLY_LETTERS = Color.RED + ">>> Please type letter only with first being Capital! <<<" + Color.RESET;
+
 
     int retrievesInteger() {
         while (true) {
@@ -21,7 +21,9 @@ public class InputValidator {
 
     String retrieveAndValidateLocation() {
         while (true) {
+            scanner.reset();
             String location = scanner.next();
+            location = location.replaceAll(" ", "+");
             if (location.matches("[a-zA-Z+]+") || location.length() <= 2) {
                 return location;
             } else {

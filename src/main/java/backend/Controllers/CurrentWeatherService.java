@@ -17,48 +17,77 @@ public class CurrentWeatherService {
         this.weatherStackClient = weatherStackClient;
     }
 
-    public String getOpenWeatherCurrentWeather(String cityName){
+    public String getOpenWeatherCurrentWeather(String cityName) {
         return openWeatherClient.getOpenWeatherCurrentWeather(cityName);
     }
 
-    public String getWeatherBitCurrentWeather(String cityName){
+    public String getWeatherBitCurrentWeather(String cityName) {
         return weatherBitClient.getWeatherBitCurrentWeather(cityName);
     }
 
-    public String getWeatherStackCurrentWeather(String cityName){
+    public String getWeatherStackCurrentWeather(String cityName) {
         return weatherStackClient.getWeatherStackCurrentWeather(cityName);
     }
 
 
 
-    private float calculateAverageTemperature(){
+
+    public String getAverageCurrentWeather() {
+        String avgHumidity = String.valueOf(calculateAverageHumidity());
+        String avgPressure = String.valueOf(calculateAveragePressure());
+        String avgTemperature = String.valueOf(calculateAverageTemperature());
+        String avgWindDirection = String.valueOf(calculateAverageWindDirection());
+        String avgWindSpeed = String.valueOf(calculateAverageWindSpeed());
+
+
+        return "avgHumidity " + avgHumidity + "avgPressure " + avgPressure + "avgTemperature " + avgTemperature + "avgWindDirection " + avgWindDirection + "avgWindSpeed " + avgWindSpeed;
+    }
+
+    public String currentWeatherDescription(){
+        String currentDescription = openWeatherClient.getDescription();
+        return currentDescription;
+    }
+
+    public float calculateAverageTemperature() {
         float averageTemperature =
-                openWeatherClient.getTemperature() + weatherBitClient.getTemperature() + weatherStackClient.getTemperature() /3;
+                (openWeatherClient.getTemperature() +
+                        weatherBitClient.getTemperature() +
+                        weatherStackClient.getTemperature()) / 2;
         return averageTemperature;
     }
 
-    private float calculateAverageHumidity(){
+    public float calculateAverageHumidity() {
         float averageHumidity =
-                openWeatherClient.getHumidity() + weatherBitClient.getHumidity() + weatherStackClient.getHumidity() /3;
+                (openWeatherClient.getHumidity() +
+                        weatherBitClient.getHumidity() +
+                        weatherStackClient.getHumidity()) / 2 ;
         return averageHumidity;
     }
 
-    private float calculateAveragePressure(){
+    public float calculateAveragePressure() {
         float averagePressure =
-                openWeatherClient.getPressure() + weatherBitClient.getPressure() + weatherStackClient.getPressure() /3;
+                (openWeatherClient.getPressure() +
+                        weatherBitClient.getPressure() +
+                        weatherStackClient.getPressure()) / 2;
         return averagePressure;
     }
 
-    private float calculateAverageWindSpeed(){
+    public float calculateAverageWindSpeed() {
         float averageWindSpeed =
-                openWeatherClient.getWindSpeed() + weatherBitClient.getWindSpeed() + weatherStackClient.getWindSpeed() /3;
+                (openWeatherClient.getWindSpeed() +
+                        weatherBitClient.getWindSpeed() +
+                        weatherStackClient.getWindSpeed()) / 2;
         return averageWindSpeed;
     }
 
-    private float calculateAverageWindDirection(){
+    public float calculateAverageWindDirection() {
         float averageWindDirection =
-                openWeatherClient.getWindDirection() + weatherBitClient.getWindDirection() + weatherStackClient.getWindDirection() /3;
+                (openWeatherClient.getWindDirection() +
+                        weatherBitClient.getWindDirection() +
+                        weatherStackClient.getWindDirection()) / 2;
         return averageWindDirection;
     }
+
+
 
 }

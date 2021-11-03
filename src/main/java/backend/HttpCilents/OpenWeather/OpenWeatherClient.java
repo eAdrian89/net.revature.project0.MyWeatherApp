@@ -72,38 +72,6 @@ public class OpenWeatherClient {
         this.windDirection = windDirection;
         this.description = description;
 
-        String arrow = null;
-        if (windDirection >= 337.5 && windDirection <= 22.5) {
-            arrow = "↑";
-        }
-        if (windDirection >= 67.5 && windDirection <= 112.5) {
-            arrow = "→";
-        }
-        if (windDirection >= 157.5 && windDirection <= 202.5) {
-            arrow = "↓";
-        }
-        if (windDirection >= 247.5 && windDirection <= 292.5) {
-            arrow = "←";
-        }
-        if (windDirection > 22.5 && windDirection < 67.5) {
-            arrow = "↗";
-        }
-        if (windDirection > 112.5 && windDirection < 157.5) {
-            arrow = "↘";
-        }
-        if (windDirection > 202.5 && windDirection < 247.5) {
-            arrow = "↙";
-        }
-        if (windDirection > 292.5 && windDirection < 337.5) {
-            arrow = "↖";
-        }
-
-        String forecastMessage = String.format("\nCurrent weather OPENWEATHER for %s are %s \n" +
-                        "↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ " +
-                        "\n temperature: %s,\n pressure: %s,\n humidity: %s,\n wind speed: %s,\n wind direction: %s %s",
-                cityName.toUpperCase(), description, temperature, pressure, humidity, windSpeed, windDirection, arrow);
-
-
-        return forecastMessage;
+        return null ;
     }
 }

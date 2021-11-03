@@ -5,6 +5,7 @@ import backend.HttpCilents.OpenWeather.OpenWeatherClient;
 import backend.HttpCilents.OpenWeather.OpenWeatherDTO;
 import backend.HttpCilents.WeatherBit.WeatherBitClient;
 import backend.HttpCilents.WeatherBit.WeatherBitDTO;
+import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
 import backend.HttpCilents.WeatherStack.WeatherStackClient;
 import backend.HttpCilents.WeatherStack.WeatherStackDTO;
 import com.google.gson.Gson;
@@ -27,8 +28,9 @@ public class MyWeatherApp {
         OpenWeatherClient openWeatherClient = new OpenWeatherClient(gson,httpClientConnector, openWeatherDTO);
         WeatherBitClient weatherBitClient = new WeatherBitClient(gson,httpClientConnector,weatherBitDTO);
         WeatherStackClient weatherStackClient = new WeatherStackClient(gson, httpClientConnector,weatherStackDTO);
+        WeatherBitForecastClient weatherBitForecastClient = new WeatherBitForecastClient(gson, httpClientConnector,weatherBitDTO );
         CurrentWeatherService currentWeatherService = new CurrentWeatherService(openWeatherClient, weatherBitClient, weatherStackClient);
-        UserInterface userInterface = new UserInterface(inputValidator,openWeatherClient,weatherBitClient, weatherStackClient, currentWeatherService);
+        UserInterface userInterface = new UserInterface(inputValidator,openWeatherClient,weatherBitClient, weatherStackClient, currentWeatherService, weatherBitForecastClient);
         userInterface.showMainMenu();
 
     }

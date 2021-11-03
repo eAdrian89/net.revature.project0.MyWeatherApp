@@ -14,6 +14,7 @@ public class CurrentWeather {
 
     //OpenWeather variables
     private String OWDescription;
+    private String OWCity;
     private float OWTemperature;
     private float OWHumidity;
     private float OWPressure;

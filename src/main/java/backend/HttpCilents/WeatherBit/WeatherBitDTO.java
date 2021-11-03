@@ -21,11 +21,13 @@ public class WeatherBitDTO {
     @NoArgsConstructor
     class Data{
         private String city_name;
+        private String valid_date;
         private float temp;
         private float wind_spd;
         private float wind_dir;
         private float slp;
         private float rh;
+
     }
 
 
