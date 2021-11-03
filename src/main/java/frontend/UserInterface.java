@@ -1,11 +1,13 @@
 package frontend;
 
+import backend.Controllers.ConnectionController;
 import backend.Controllers.CurrentWeatherService;
 import backend.HttpCilents.OpenWeather.OpenWeatherClient;
 import backend.HttpCilents.WeatherBit.WeatherBitClient;
 import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
 import backend.HttpCilents.WeatherStack.WeatherStackClient;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
@@ -71,7 +73,10 @@ public class UserInterface{
         }
     }
 
-    private void checkSearchHistory() {
+    private void checkSearchHistory(){
+
+        ConnectionController connectionController = new ConnectionController();
+        connectionController.createConnectionToDB();
     }
 
     private void checkFiveDayForecast() {
