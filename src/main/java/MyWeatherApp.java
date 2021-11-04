@@ -16,7 +16,6 @@ import frontend.UserInterface;
 
 
 
-
 public class MyWeatherApp {
 
     static {

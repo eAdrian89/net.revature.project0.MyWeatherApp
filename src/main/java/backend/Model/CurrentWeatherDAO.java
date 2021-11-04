@@ -1,5 +1,7 @@
 package backend.Model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +12,10 @@ import static backend.Controllers.Configuration.*;
 public class CurrentWeatherDAO {
 
     private final CurrentWeather currentWeather;
+    Logger logger = LoggerFactory.getLogger(CurrentWeatherDAO.class);
 
-    public CurrentWeatherDAO(CurrentWeather currentWeather){
+
+    public CurrentWeatherDAO(CurrentWeather currentWeather) {
         this.currentWeather = currentWeather;
     }
 
@@ -29,13 +33,13 @@ public class CurrentWeatherDAO {
             ");";
 
     private final String CREATE_WEATHER_QUERY = "INSERT INTO WeatherHistory(" +
-        "Date, OWDescription, OWCity," +
+            "Date, OWDescription, OWCity," +
             "AVGTemperature, AVGHumidity, AVGPressure, AVGWindSpeed, AVGWindDirection)" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
     private final String FIND_SEARCH_HISTORY = "SELECT * From WeatherHistory ORDER BY Id DESC;";
 
-    public void saveCurrentWeather(){
+    public void saveCurrentWeather() {
         try {
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_WEATHER_QUERY);
@@ -51,16 +55,17 @@ public class CurrentWeatherDAO {
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Could not update data into Data Base");
         }
     }
+
     public List<CurrentWeather> checkSearchHistory() {
         List<CurrentWeather> searchHistory = new ArrayList<>();
         try {
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_SEARCH_HISTORY);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 CurrentWeather currentWeather = new CurrentWeather();
                 currentWeather.setDate(resultSet.getString(2));
                 currentWeather.setOWDescription(resultSet.getString(3));
@@ -73,7 +78,7 @@ public class CurrentWeatherDAO {
                 searchHistory.add(currentWeather);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Could not receive data from Data Base");
         }
         return searchHistory;
     }
