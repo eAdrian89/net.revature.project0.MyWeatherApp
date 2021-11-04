@@ -17,13 +17,13 @@ public class UserInterface {
     private final CurrentWeather currentWeather;
     private final CurrentWeatherDAO currentWeatherDAO;
 
-    private final String CHECK_CURRENT_WEATHER = "Enter City Name to check current weather";
-    private final String CHECK_5_DAY_FORECAST = "Enter City Name to check 5 day forecast";
-    private final String CHECK_PREVIOUS_REQUESTS = "Previous server responses";
-    private final String CLOSE_APP_MESSAGE = "\nThank you for your time \n" + "Good Bye!";
+    private final String CHECK_CURRENT_WEATHER =  Color.BLUE + "Enter City Name to check current weather\n" + Color.RESET;
+    private final String CHECK_5_DAY_FORECAST =  Color.BLUE + "Enter City Name to check 5 day forecast\n" + Color.RESET;
+    private final String CHECK_PREVIOUS_REQUESTS =  Color.BLUE + "Previous server responses:\n" + Color.RESET;
+    private final String CLOSE_APP_MESSAGE = Color.RED + "\nThank you for your time \n" + "Good Bye!";
     private final String WELCOME_MESSAGE = "\n" +
-            "==================================================================== \n" +
-            "Welcome to the [ϟϟϟ WEATHER SERVICE ϟϟϟ], what would you like to do? \n" +
+            Color.BLUE + "==================================================================== \n" +
+            "Welcome to the" +  Color.RED + "[ϟϟϟ WEATHER SERVICE ϟϟϟ]" +Color.BLUE + "what would you like to do? \n" +
             "====================================================================";
 
     private final String MAIN_MENU = "\n" +
@@ -70,6 +70,7 @@ public class UserInterface {
     }
 
     private void checkSearchHistory() {
+        System.out.println(CHECK_PREVIOUS_REQUESTS);
         List<CurrentWeather> weatherList = currentWeatherDAO.checkSearchHistory();
         for (int i = 0; i < weatherList.size(); i++) {
             System.out.println("Forecast checked at: " + weatherList.get(i).getDate() + ", For City " + weatherList.get(i).getOWCity() + ", Conditions " + weatherList.get(i).getOWDescription() + ", Temperature " + weatherList.get(i).getAVGTemperature() + ", Humidity " + weatherList.get(i).getAVGHumidity() + ", Pressure " + weatherList.get(i).getAVGPressure() + ", Wind Speed " + weatherList.get(i).getAVGWindSpeed() + ", Wind Direction " + weatherList.get(i).getAVGWindDirection());
@@ -321,7 +322,7 @@ public class UserInterface {
         }
         System.out.print(".\n\n");
         currentWeatherService.getOpenWeatherCurrentWeather(cityName);
-        //currentWeatherService.getWeatherStackCurrentWeather(cityName);
+        //currentWeatherService.getWeatherStackCurrentWeather(cityName); //250 calls limitation
         currentWeatherService.getWeatherBitCurrentWeather(cityName);
         currentWeatherService.save();
         currentWeatherDAO.saveCurrentWeather();

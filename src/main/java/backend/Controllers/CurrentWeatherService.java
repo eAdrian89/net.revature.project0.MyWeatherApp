@@ -42,46 +42,96 @@ public class CurrentWeatherService {
     }
 
     public float calculateAverageTemperature() {
+        int avgCounter = 0;
+        if(openWeatherClient.getTemperature() != 0){
+            avgCounter++;
+            if(weatherBitClient.getTemperature() != 0){
+                avgCounter++;
+                if(weatherStackClient.getTemperature() !=0){
+                    avgCounter++;
+                }
+            }
+        }
         float averageTemperature =
                 (openWeatherClient.getTemperature() +
                         weatherBitClient.getTemperature() +
-                        weatherStackClient.getTemperature()) / 2;
+                        weatherStackClient.getTemperature()) / avgCounter;
         return averageTemperature;
     }
 
     public float calculateAverageHumidity() {
+        int avgCounter = 0;
+        if(openWeatherClient.getHumidity() != 0){
+            avgCounter++;
+            if(weatherBitClient.getHumidity() != 0){
+                avgCounter++;
+                if(weatherStackClient.getHumidity() !=0){
+                    avgCounter++;
+                }
+            }
+        }
         float averageHumidity =
                 (openWeatherClient.getHumidity() +
                         weatherBitClient.getHumidity() +
-                        weatherStackClient.getHumidity()) / 2 ;
+                        weatherStackClient.getHumidity()) / avgCounter;
         return averageHumidity;
     }
 
     public float calculateAveragePressure() {
+        int avgCounter = 0;
+        if(openWeatherClient.getPressure() != 0){
+            avgCounter++;
+            if(weatherBitClient.getPressure() != 0){
+                avgCounter++;
+                if(weatherStackClient.getPressure() !=0){
+                    avgCounter++;
+                }
+            }
+        }
         float averagePressure =
                 (openWeatherClient.getPressure() +
                         weatherBitClient.getPressure() +
-                        weatherStackClient.getPressure()) / 2;
+                        weatherStackClient.getPressure()) / avgCounter;
         return averagePressure;
     }
 
     public float calculateAverageWindSpeed() {
+        int avgCounter = 0;
+        if (openWeatherClient.getWindSpeed() != 0) {
+            avgCounter++;
+            if (weatherBitClient.getWindSpeed() != 0) {
+                avgCounter++;
+                if (weatherStackClient.getWindSpeed() != 0) {
+                    avgCounter++;
+                }
+            }
+        }
         float averageWindSpeed =
                 (openWeatherClient.getWindSpeed() +
                         weatherBitClient.getWindSpeed() +
-                        weatherStackClient.getWindSpeed()) / 2;
+                        weatherStackClient.getWindSpeed()) / avgCounter;
         return averageWindSpeed;
     }
 
     public float calculateAverageWindDirection() {
+        int avgCounter = 0;
+        if (openWeatherClient.getWindDirection() != 0) {
+            avgCounter++;
+            if (weatherBitClient.getWindDirection() != 0) {
+                avgCounter++;
+                if (weatherStackClient.getWindDirection() != 0) {
+                    avgCounter++;
+                }
+            }
+        }
         float averageWindDirection =
                 (openWeatherClient.getWindDirection() +
                         weatherBitClient.getWindDirection() +
-                        weatherStackClient.getWindDirection()) / 2;
+                        weatherStackClient.getWindDirection()) / avgCounter;
         return averageWindDirection;
     }
 
-    public String currentWeatherDescription(){
+    public String currentWeatherDescription() {
         String currentDescription = openWeatherClient.getDescription();
         return currentDescription;
     }

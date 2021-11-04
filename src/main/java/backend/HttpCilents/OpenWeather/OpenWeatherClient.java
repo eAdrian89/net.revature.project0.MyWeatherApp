@@ -3,8 +3,12 @@ package backend.HttpCilents.OpenWeather;
 
 import backend.HttpCilents.HttpClientConnector;
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OpenWeatherClient {
+    private Logger logger = LoggerFactory.getLogger(OpenWeatherClient.class);
+
     private final Gson gson;
     private final HttpClientConnector httpClientConnector;
     private final OpenWeatherDTO openWeatherDTO;
@@ -16,6 +20,7 @@ public class OpenWeatherClient {
     private float windSpeed;
     private float windDirection;
     private String description;
+
 
     public String getName() {
         return name;
@@ -71,6 +76,10 @@ public class OpenWeatherClient {
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
         this.description = description;
+
+        if(name == null){
+            logger.error("Cannot connect to OpenWeather API");
+        }
 
         return null;
     }

@@ -3,8 +3,12 @@ package backend.HttpCilents.WeatherStack;
 import backend.HttpCilents.HttpClientConnector;
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WeatherStackClient {
+
+    private Logger legger = LoggerFactory.getLogger(WeatherStackClient.class);
 
     private Gson gson;
     private HttpClientConnector httpClientConnector;
@@ -52,6 +56,7 @@ public class WeatherStackClient {
         String URL = String.format("http://api.weatherstack.com/current?access_key=%s&query=%s&units=m", apiKey, cityName);
         String responseBody = httpClientConnector.initializeHttpConnection(URL);
 
+
         WeatherStackDTO weatherStackDTO = gson.fromJson(responseBody, WeatherStackDTO.class);
         String name = weatherStackDTO.getLocation().getName();
         float temperature = weatherStackDTO.getCurrent().getTemperature();
@@ -67,6 +72,10 @@ public class WeatherStackClient {
         this.humidity = humidity;
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
+
+        if(name == null){
+            legger.error("Cannot connect to WeatherStack API");
+        }
 
         return null;
     }

@@ -2,9 +2,12 @@ package backend.HttpCilents.WeatherBit;
 
 import backend.HttpCilents.HttpClientConnector;
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WeatherBitClient {
 
+    private Logger logger = LoggerFactory.getLogger(WeatherBitClient.class);
 
     private final Gson gson;
     private final HttpClientConnector httpClientConnector;
@@ -65,6 +68,10 @@ public class WeatherBitClient {
         this.humidity = humidity;
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
+
+        if(name == null){
+            logger.error("Cannot connect to WeatherBit API");
+        }
 
         return null;
     }
