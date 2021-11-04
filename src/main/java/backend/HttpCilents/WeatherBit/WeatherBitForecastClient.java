@@ -3,11 +3,12 @@ package backend.HttpCilents.WeatherBit;
 import backend.HttpCilents.HttpClientConnector;
 import com.google.gson.Gson;
 
+
 public class WeatherBitForecastClient {
 
-    private Gson gson;
-    private HttpClientConnector httpClientConnector;
-    private WeatherBitDTO weatherBitDTO;
+    private final Gson gson;
+    private final HttpClientConnector httpClientConnector;
+    private final WeatherBitDTO weatherBitDTO;
     private final String apiKey = "9943b74d5df149679b49dec61891605a";
     private String name;
     private String dateToday;
@@ -165,36 +166,6 @@ public class WeatherBitForecastClient {
         return windDirectionTodayPlusFour;
     }
 
-    /*
-        public String getName() {
-            return name;
-        }
-
-        public String getDate(){
-            return  dateToday;
-        }
-
-
-        public float getTemperature() {
-            return temperatureToday;
-        }
-
-        public float getPressure() {
-            return pressureToday;
-        }
-
-        public float getHumidity() {
-            return humidityToday;
-        }
-
-        public float getWindSpeed() {
-            return windSpeedToday;
-        }
-
-        public float getWindDirection() {
-            return windDirectionToday;
-        }
-    */
     public WeatherBitForecastClient(Gson gson, HttpClientConnector httpClientConnector, WeatherBitDTO weatherBitDTO) {
         this.gson = gson;
         this.httpClientConnector = httpClientConnector;
@@ -206,6 +177,8 @@ public class WeatherBitForecastClient {
         String responseBody = httpClientConnector.initializeHttpConnection(URL);
 
         WeatherBitDTO weatherBitDTO = gson.fromJson(responseBody, WeatherBitDTO.class);
+
+
         //Today
         String name = weatherBitDTO.getData().get(0).getCity_name();
         String dateToday = weatherBitDTO.getData().get(0).getValid_date();

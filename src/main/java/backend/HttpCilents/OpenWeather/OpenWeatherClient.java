@@ -5,9 +5,9 @@ import backend.HttpCilents.HttpClientConnector;
 import com.google.gson.Gson;
 
 public class OpenWeatherClient {
-    private Gson gson;
-    private HttpClientConnector httpClientConnector;
-    private OpenWeatherDTO openWeatherDTO;
+    private final Gson gson;
+    private final HttpClientConnector httpClientConnector;
+    private final OpenWeatherDTO openWeatherDTO;
     private final String apiKey = "d2523d4ce5199ce659dcad17ce29e5ed";
     private String name;
     private float temperature;
@@ -72,6 +72,6 @@ public class OpenWeatherClient {
         this.windDirection = windDirection;
         this.description = description;
 
-        return null ;
+        return null;
     }
 }

@@ -8,6 +8,8 @@ import backend.HttpCilents.WeatherBit.WeatherBitDTO;
 import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
 import backend.HttpCilents.WeatherStack.WeatherStackClient;
 import backend.HttpCilents.WeatherStack.WeatherStackDTO;
+import backend.Model.CurrentWeather;
+import backend.Model.CurrentWeatherDAO;
 import com.google.gson.Gson;
 import frontend.InputValidator;
 import frontend.UserInterface;
@@ -16,7 +18,6 @@ import frontend.UserInterface;
 
 
 public class MyWeatherApp {
-    private static UserInterface userInterface;
 
     static {
         InputValidator inputValidator = new InputValidator();
@@ -29,8 +30,10 @@ public class MyWeatherApp {
         WeatherBitClient weatherBitClient = new WeatherBitClient(gson,httpClientConnector,weatherBitDTO);
         WeatherStackClient weatherStackClient = new WeatherStackClient(gson, httpClientConnector,weatherStackDTO);
         WeatherBitForecastClient weatherBitForecastClient = new WeatherBitForecastClient(gson, httpClientConnector,weatherBitDTO );
-        CurrentWeatherService currentWeatherService = new CurrentWeatherService(openWeatherClient, weatherBitClient, weatherStackClient);
-        UserInterface userInterface = new UserInterface(inputValidator,openWeatherClient,weatherBitClient, weatherStackClient, currentWeatherService, weatherBitForecastClient);
+        CurrentWeather currentWeather = new CurrentWeather();
+        CurrentWeatherDAO currentWeatherDAO = new CurrentWeatherDAO(currentWeather);
+        CurrentWeatherService currentWeatherService = new CurrentWeatherService(openWeatherClient, weatherBitClient, weatherStackClient,currentWeather);
+        UserInterface userInterface = new UserInterface(inputValidator,currentWeatherService,weatherBitForecastClient,currentWeather, currentWeatherDAO);
         userInterface.showMainMenu();
 
     }

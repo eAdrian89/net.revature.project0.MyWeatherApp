@@ -1,29 +1,26 @@
 package frontend;
 
-import backend.Controllers.ConnectionController;
+import backend.Model.CurrentWeather;
+import backend.Model.CurrentWeatherDAO;
 import backend.Controllers.CurrentWeatherService;
-import backend.HttpCilents.OpenWeather.OpenWeatherClient;
-import backend.HttpCilents.WeatherBit.WeatherBitClient;
 import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
-import backend.HttpCilents.WeatherStack.WeatherStackClient;
 
-import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-public class UserInterface{
-    private InputValidator inputValidator;
-    private OpenWeatherClient openWeatherClient;
-    private WeatherBitClient weatherBitClient;
-    private WeatherStackClient weatherStackClient;
-    private CurrentWeatherService currentWeatherService;
-    private WeatherBitForecastClient weatherBitForecastClient;
+public class UserInterface {
+    private final InputValidator inputValidator;
+    private final CurrentWeatherService currentWeatherService;
+    private final WeatherBitForecastClient weatherBitForecastClient;
+    private final CurrentWeather currentWeather;
+    private final CurrentWeatherDAO currentWeatherDAO;
 
     private final String CHECK_CURRENT_WEATHER = "Enter City Name to check current weather";
     private final String CHECK_5_DAY_FORECAST = "Enter City Name to check 5 day forecast";
     private final String CHECK_PREVIOUS_REQUESTS = "Previous server responses";
-    private final String CLOSE_APP_MESSAGE = "\nThank you for your time \n" + "Good Bay!";
+    private final String CLOSE_APP_MESSAGE = "\nThank you for your time \n" + "Good Bye!";
     private final String WELCOME_MESSAGE = "\n" +
             "==================================================================== \n" +
             "Welcome to the [ϟϟϟ WEATHER SERVICE ϟϟϟ], what would you like to do? \n" +
@@ -36,16 +33,15 @@ public class UserInterface{
             Color.RED + "4 => Close the application \n" + Color.RESET +
             Color.RESET + "↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ " + "\n";
 
-    public UserInterface(InputValidator inputValidator, OpenWeatherClient openWeatherClient, WeatherBitClient weatherBitClient, WeatherStackClient weatherStackClient, CurrentWeatherService currentWeatherService, WeatherBitForecastClient weatherBitForecastClient) {
+    public UserInterface(InputValidator inputValidator, CurrentWeatherService currentWeatherService, WeatherBitForecastClient weatherBitForecastClient, CurrentWeather currentWeather, CurrentWeatherDAO currentWeatherDAO) {
         this.inputValidator = inputValidator;
-        this.openWeatherClient = openWeatherClient;
-        this.weatherBitClient = weatherBitClient;
-        this.weatherStackClient = weatherStackClient;
         this.currentWeatherService = currentWeatherService;
         this.weatherBitForecastClient = weatherBitForecastClient;
+        this.currentWeather = currentWeather;
+        this.currentWeatherDAO = currentWeatherDAO;
     }
 
-    public void showMainMenu(){
+    public void showMainMenu() {
         System.out.println(WELCOME_MESSAGE);
         try {
             TimeUnit.SECONDS.sleep(1);
@@ -56,9 +52,9 @@ public class UserInterface{
             System.out.println(MAIN_MENU);
             int userInput = inputValidator.retrievesInteger();
 
-            switch (userInput){
+            switch (userInput) {
                 case 1:
-                   checkCurrentWeather();
+                    checkCurrentWeather();
                     break;
                 case 2:
                     checkFiveDayForecast();
@@ -73,10 +69,11 @@ public class UserInterface{
         }
     }
 
-    private void checkSearchHistory(){
-
-        ConnectionController connectionController = new ConnectionController();
-        connectionController.createConnectionToDB();
+    private void checkSearchHistory() {
+        List<CurrentWeather> weatherList = currentWeatherDAO.checkSearchHistory();
+        for (int i = 0; i < weatherList.size(); i++) {
+            System.out.println("Forecast checked at: " + weatherList.get(i).getDate() + ", For City " + weatherList.get(i).getOWCity() + ", Conditions " + weatherList.get(i).getOWDescription() + ", Temperature " + weatherList.get(i).getAVGTemperature() + ", Humidity " + weatherList.get(i).getAVGHumidity() + ", Pressure " + weatherList.get(i).getAVGPressure() + ", Wind Speed " + weatherList.get(i).getAVGWindSpeed() + ", Wind Direction " + weatherList.get(i).getAVGWindDirection());
+        }
     }
 
     private void checkFiveDayForecast() {
@@ -101,7 +98,7 @@ public class UserInterface{
             e.printStackTrace();
         }
         System.out.print(".\n\n");
-         weatherBitForecastClient.getWeatherBitForecastWeather(cityName);
+        weatherBitForecastClient.getWeatherBitForecastWeather(cityName);
 
 
         String dateToday = weatherBitForecastClient.getDateToday();
@@ -128,7 +125,7 @@ public class UserInterface{
         float humidityTodayPlusThree = weatherBitForecastClient.getHumidityTodayPlusThree();
         float humidityTodayPlusFour = weatherBitForecastClient.getHumidityTodayPlusFour();
 
-        float windSpeedToday =weatherBitForecastClient.getWindSpeedToday();
+        float windSpeedToday = weatherBitForecastClient.getWindSpeedToday();
         float windSpeedTodayPlusOne = weatherBitForecastClient.getWindSpeedTodayPlusOne();
         float windSpeedTodayPlusTwo = weatherBitForecastClient.getWindSpeedTodayPlusTwo();
         float windSpeedTodayPlusThree = weatherBitForecastClient.getWindSpeedTodayPlusThree();
@@ -249,11 +246,11 @@ public class UserInterface{
         if (windDirectionTodayPlusFour >= 337.5 && windDirectionTodayPlusFour <= 22.5) {
             arrowTodayPlusFour = "↑";
         }
-        if (windDirectionTodayPlusFour >= 67.5 && windDirectionTodayPlusFour<= 112.5) {
+        if (windDirectionTodayPlusFour >= 67.5 && windDirectionTodayPlusFour <= 112.5) {
             arrowTodayPlusFour = "→";
         }
         if (windDirectionTodayPlusFour >= 157.5 && windDirectionTodayPlusFour <= 202.5) {
-            arrowTodayPlusFour= "↓";
+            arrowTodayPlusFour = "↓";
         }
         if (windDirectionTodayPlusFour >= 247.5 && windDirectionTodayPlusFour <= 292.5) {
             arrowTodayPlusFour = "←";
@@ -268,7 +265,7 @@ public class UserInterface{
             arrowTodayPlusFour = "↙";
         }
         if (windDirectionTodayPlusFour > 292.5 && windDirectionTodayPlusFour < 337.5) {
-            arrowTodayPlusFour= "↖";
+            arrowTodayPlusFour = "↖";
         }
 
         DecimalFormat df = new DecimalFormat("0.00");
@@ -326,6 +323,8 @@ public class UserInterface{
         currentWeatherService.getOpenWeatherCurrentWeather(cityName);
         //currentWeatherService.getWeatherStackCurrentWeather(cityName);
         currentWeatherService.getWeatherBitCurrentWeather(cityName);
+        currentWeatherService.save();
+        currentWeatherDAO.saveCurrentWeather();
 
         String description = currentWeatherService.currentWeatherDescription();
         float temperature = currentWeatherService.calculateAverageTemperature();

@@ -3,18 +3,20 @@ package backend.Controllers;
 import backend.HttpCilents.OpenWeather.OpenWeatherClient;
 import backend.HttpCilents.WeatherBit.WeatherBitClient;
 import backend.HttpCilents.WeatherStack.WeatherStackClient;
+import backend.Model.CurrentWeather;
 
 
 public class CurrentWeatherService {
-    private OpenWeatherClient openWeatherClient;
-    private WeatherBitClient weatherBitClient;
-    private WeatherStackClient weatherStackClient;
+    private final OpenWeatherClient openWeatherClient;
+    private final WeatherBitClient weatherBitClient;
+    private final WeatherStackClient weatherStackClient;
+    private final CurrentWeather currentWeather;
 
-
-    public CurrentWeatherService(OpenWeatherClient openWeatherClient, WeatherBitClient weatherBitClient, WeatherStackClient weatherStackClient) {
+    public CurrentWeatherService(OpenWeatherClient openWeatherClient, WeatherBitClient weatherBitClient, WeatherStackClient weatherStackClient, CurrentWeather currentWeather) {
         this.openWeatherClient = openWeatherClient;
         this.weatherBitClient = weatherBitClient;
         this.weatherStackClient = weatherStackClient;
+        this.currentWeather = currentWeather;
     }
 
     public String getOpenWeatherCurrentWeather(String cityName) {
@@ -29,23 +31,14 @@ public class CurrentWeatherService {
         return weatherStackClient.getWeatherStackCurrentWeather(cityName);
     }
 
-
-
-
-    public String getAverageCurrentWeather() {
-        String avgHumidity = String.valueOf(calculateAverageHumidity());
-        String avgPressure = String.valueOf(calculateAveragePressure());
-        String avgTemperature = String.valueOf(calculateAverageTemperature());
-        String avgWindDirection = String.valueOf(calculateAverageWindDirection());
-        String avgWindSpeed = String.valueOf(calculateAverageWindSpeed());
-
-
-        return "avgHumidity " + avgHumidity + "avgPressure " + avgPressure + "avgTemperature " + avgTemperature + "avgWindDirection " + avgWindDirection + "avgWindSpeed " + avgWindSpeed;
-    }
-
-    public String currentWeatherDescription(){
-        String currentDescription = openWeatherClient.getDescription();
-        return currentDescription;
+    public void save() {
+        currentWeather.setOWDescription(openWeatherClient.getDescription());
+        currentWeather.setOWCity(openWeatherClient.getName());
+        currentWeather.setAVGTemperature(calculateAverageTemperature());
+        currentWeather.setAVGHumidity(calculateAverageHumidity());
+        currentWeather.setAVGPressure(calculateAveragePressure());
+        currentWeather.setAVGWindSpeed(calculateAverageWindSpeed());
+        currentWeather.setAVGWindDirection(calculateAverageWindDirection());
     }
 
     public float calculateAverageTemperature() {
@@ -88,6 +81,8 @@ public class CurrentWeatherService {
         return averageWindDirection;
     }
 
-
-
+    public String currentWeatherDescription(){
+        String currentDescription = openWeatherClient.getDescription();
+        return currentDescription;
+    }
 }

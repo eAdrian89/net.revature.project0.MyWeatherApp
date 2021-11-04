@@ -6,9 +6,9 @@ import com.google.gson.Gson;
 public class WeatherBitClient {
 
 
-    private Gson gson;
-    private HttpClientConnector httpClientConnector;
-    private WeatherBitDTO weatherBitDTO;
+    private final Gson gson;
+    private final HttpClientConnector httpClientConnector;
+    private final WeatherBitDTO weatherBitDTO;
     private final String apiKey = "9943b74d5df149679b49dec61891605a";
     private String name;
     private float temperature;
@@ -16,7 +16,6 @@ public class WeatherBitClient {
     private float humidity;
     private float windSpeed;
     private float windDirection;
-
 
     public String getName() {
         return name;
@@ -60,7 +59,6 @@ public class WeatherBitClient {
         float windSpeed = weatherBitDTO.getData().get(0).getWind_spd();
         float windDirection = weatherBitDTO.getData().get(0).getWind_dir();
 
-
         this.name = name;
         this.temperature = temperature;
         this.pressure = pressure;
@@ -68,7 +66,7 @@ public class WeatherBitClient {
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
 
-        return null ;
+        return null;
     }
 }
 
