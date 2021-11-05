@@ -3,7 +3,6 @@ package backend.Controllers;
 import backend.HttpCilents.OpenWeather.OpenWeatherClient;
 import backend.HttpCilents.WeatherBit.WeatherBitClient;
 import backend.HttpCilents.WeatherStack.WeatherStackClient;
-import backend.Model.CurrentWeather;
 
 
 public class CurrentWeatherService {

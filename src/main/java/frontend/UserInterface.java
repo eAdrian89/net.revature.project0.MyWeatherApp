@@ -1,9 +1,12 @@
 package frontend;
 
-import backend.Model.CurrentWeather;
-import backend.Model.CurrentWeatherDAO;
+import backend.Controllers.CurrentWeather;
+import backend.Controllers.CurrentWeatherDAO;
 import backend.Controllers.CurrentWeatherService;
+import backend.Controllers.ServerController;
 import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -11,19 +14,21 @@ import java.util.concurrent.TimeUnit;
 
 
 public class UserInterface {
+    private Logger logger = LoggerFactory.getLogger(UserInterface.class);
     private final InputValidator inputValidator;
     private final CurrentWeatherService currentWeatherService;
     private final WeatherBitForecastClient weatherBitForecastClient;
     private final CurrentWeather currentWeather;
     private final CurrentWeatherDAO currentWeatherDAO;
 
-    private final String CHECK_CURRENT_WEATHER =  Color.BLUE + "Enter City Name to check current weather\n" + Color.RESET;
-    private final String CHECK_5_DAY_FORECAST =  Color.BLUE + "Enter City Name to check 5 day forecast\n" + Color.RESET;
-    private final String CHECK_PREVIOUS_REQUESTS =  Color.BLUE + "Previous server responses:\n" + Color.RESET;
+
+    private final String CHECK_CURRENT_WEATHER = Color.BLUE + "Enter City Name to check current weather\n" + Color.RESET;
+    private final String CHECK_5_DAY_FORECAST = Color.BLUE + "Enter City Name to check 5 day forecast\n" + Color.RESET;
+    private final String CHECK_PREVIOUS_REQUESTS = Color.BLUE + "Previous server responses:\n" + Color.RESET;
     private final String CLOSE_APP_MESSAGE = Color.RED + "\nThank you for your time \n" + "Good Bye!";
     private final String WELCOME_MESSAGE = "\n" +
             Color.BLUE + "==================================================================== \n" +
-            "Welcome to the" +  Color.RED + "[ϟϟϟ WEATHER SERVICE ϟϟϟ]" +Color.BLUE + "what would you like to do? \n" +
+            "Welcome to the" + Color.RED + "[ϟϟϟ WEATHER SERVICE ϟϟϟ]" + Color.BLUE + "what would you like to do? \n" +
             "====================================================================";
 
     private final String MAIN_MENU = "\n" +
@@ -70,6 +75,9 @@ public class UserInterface {
     }
 
     private void checkSearchHistory() {
+
+        // ServerController serverController = new ServerController();
+        // serverController.runServer();
         System.out.println(CHECK_PREVIOUS_REQUESTS);
         List<CurrentWeather> weatherList = currentWeatherDAO.checkSearchHistory();
         for (int i = 0; i < weatherList.size(); i++) {

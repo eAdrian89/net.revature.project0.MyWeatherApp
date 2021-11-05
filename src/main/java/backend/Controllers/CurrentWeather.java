@@ -1,4 +1,4 @@
-package backend.Model;
+package backend.Controllers;
 
 import lombok.Data;
 

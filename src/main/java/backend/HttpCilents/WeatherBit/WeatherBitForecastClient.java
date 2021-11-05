@@ -177,8 +177,6 @@ public class WeatherBitForecastClient {
         String responseBody = httpClientConnector.initializeHttpConnection(URL);
 
         WeatherBitDTO weatherBitDTO = gson.fromJson(responseBody, WeatherBitDTO.class);
-
-
         //Today
         String name = weatherBitDTO.getData().get(0).getCity_name();
         String dateToday = weatherBitDTO.getData().get(0).getValid_date();
