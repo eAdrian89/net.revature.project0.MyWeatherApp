@@ -3,7 +3,6 @@ package frontend;
 import backend.Controllers.CurrentWeather;
 import backend.Controllers.CurrentWeatherDAO;
 import backend.Controllers.CurrentWeatherService;
-import backend.Controllers.ServerController;
 import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -277,6 +276,7 @@ public class UserInterface {
             arrowTodayPlusFour = "↖";
         }
 
+        cityName = cityName.replaceAll("\\+", " ");
         DecimalFormat df = new DecimalFormat("0.00");
         String forecastMessageToday = String.format("\nWeather forecast for %s \n at %s\n" +
                         "↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ " +
@@ -367,6 +367,7 @@ public class UserInterface {
         if (windDirection > 292.5 && windDirection < 337.5) {
             arrow = "↖";
         }
+        cityName = cityName.replaceAll("\\+", " ");
         DecimalFormat df = new DecimalFormat("0.00");
         String forecastMessage = String.format("\nCurrent Average weather for %s are %s \n" +
                         "↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ " +

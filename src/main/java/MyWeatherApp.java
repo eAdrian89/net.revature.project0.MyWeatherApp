@@ -1,4 +1,5 @@
 
+import backend.Controllers.Configuration;
 import backend.Controllers.CurrentWeatherService;
 import backend.HttpCilents.HttpClientConnector;
 import backend.HttpCilents.HttpClientConnectorImpl;
@@ -15,8 +16,8 @@ import com.google.gson.Gson;
 import frontend.InputValidator;
 import frontend.UserInterface;
 
-
-
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 
 public class MyWeatherApp {

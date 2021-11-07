@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 public class WeatherStackClient {
 
-    private Logger legger = LoggerFactory.getLogger(WeatherStackClient.class);
+    private Logger logger = LoggerFactory.getLogger(WeatherStackClient.class);
 
     private Gson gson;
     private HttpClientConnector httpClientConnector;
@@ -74,8 +74,10 @@ public class WeatherStackClient {
         this.windDirection = windDirection;
 
         if(name == null){
-            legger.error("Cannot connect to WeatherStack API");
-        }
+            logger.error("Cannot connect to WeatherStack API");
+        } else if (name != null){
+        logger.info("Downloaded Data from WeatherStack API");
+    }
 
         return null;
     }

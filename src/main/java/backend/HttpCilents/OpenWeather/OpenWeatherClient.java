@@ -79,6 +79,8 @@ public class OpenWeatherClient {
 
         if(name == null){
             logger.error("Cannot connect to OpenWeather API");
+        }else if (name != null){
+            logger.info("Downloaded Data from Open Weather API");
         }
 
         return null;

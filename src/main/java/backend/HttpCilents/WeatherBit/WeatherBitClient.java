@@ -71,7 +71,9 @@ public class WeatherBitClient {
 
         if(name == null){
             logger.error("Cannot connect to WeatherBit API");
-        }
+        } else if (name != null){
+        logger.info("Downloaded Data from WeatherBit API");
+    }
 
         return null;
     }

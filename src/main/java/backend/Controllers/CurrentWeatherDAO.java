@@ -53,8 +53,12 @@ public class CurrentWeatherDAO {
             preparedStatement.setFloat(7, currentWeather.getAVGWindSpeed());
             preparedStatement.setFloat(8, currentWeather.getAVGWindDirection());
             preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
+           try {
+               preparedStatement.close();
+               connection.close();
+           } catch (SQLException e){
+               logger.error("Could not close Data Base Connection");
+           }
         } catch (SQLException e) {
             logger.error("Could not update data into Data Base");
         }
@@ -77,6 +81,14 @@ public class CurrentWeatherDAO {
                 currentWeather.setAVGWindSpeed(resultSet.getFloat(8));
                 currentWeather.setAVGWindDirection(resultSet.getFloat(9));
                 searchHistory.add(currentWeather);
+                if(preparedStatement == null){
+                   try {
+                       preparedStatement.close();
+                       connection.close();
+                   }catch (SQLException e){
+                       logger.error("Could not close Data Base connection");
+                   }
+                }
             }
         } catch (SQLException e) {
             logger.error("Could not receive data from Data Base");
