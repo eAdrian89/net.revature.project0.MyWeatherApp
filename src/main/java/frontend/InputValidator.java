@@ -1,13 +1,14 @@
 package frontend;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+@Slf4j
 public class InputValidator {
     private final Scanner scanner = new Scanner(System.in);
-    private Logger logger = LoggerFactory.getLogger(InputValidator.class);
 
 
     int retrievesInteger() {
@@ -18,7 +19,7 @@ public class InputValidator {
                 scanner.reset();
                 scanner.nextLine();
                 System.out.println(Color.RED + " \nPlease enter a number using only the digits 1 to 4");
-                logger.info("Input Mismatch Exception");
+                log.info("Input Mismatch Exception");
             }
         }
     }
@@ -32,7 +33,7 @@ public class InputValidator {
                 return location;
             } else {
                 System.out.println(Color.RED + " \nPlease enter a letters only");
-                logger.info("Input Mismatch Exception");
+                log.info("Input Mismatch Exception");
             }
         }
     }

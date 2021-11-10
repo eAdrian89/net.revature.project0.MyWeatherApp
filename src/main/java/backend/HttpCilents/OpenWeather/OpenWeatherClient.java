@@ -3,11 +3,13 @@ package backend.HttpCilents.OpenWeather;
 
 import backend.HttpCilents.HttpClientConnector;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class OpenWeatherClient {
-    private Logger logger = LoggerFactory.getLogger(OpenWeatherClient.class);
+
 
     private final Gson gson;
     private final HttpClientConnector httpClientConnector;
@@ -78,9 +80,9 @@ public class OpenWeatherClient {
         this.description = description;
 
         if(name == null){
-            logger.error("Cannot connect to OpenWeather API");
+            log.error("Cannot connect to OpenWeather API");
         }else if (name != null){
-            logger.info("Downloaded Data from Open Weather API");
+            log.info("Downloaded Data from Open Weather API");
         }
 
         return null;

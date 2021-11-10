@@ -20,6 +20,7 @@ public class CurrentWeatherService {
 
     public String getOpenWeatherCurrentWeather(String cityName) {
         return openWeatherClient.getOpenWeatherCurrentWeather(cityName);
+
     }
 
     public String getWeatherBitCurrentWeather(String cityName) {

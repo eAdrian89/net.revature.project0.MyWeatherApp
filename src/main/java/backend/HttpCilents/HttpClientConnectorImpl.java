@@ -1,5 +1,6 @@
 package backend.HttpCilents;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,8 +10,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@Slf4j
 public class HttpClientConnectorImpl implements HttpClientConnector{
-    Logger logger = LoggerFactory.getLogger(HttpClientConnectorImpl.class);
+
 
     @Override
     public String initializeHttpConnection(String URL) {
@@ -30,7 +32,7 @@ public class HttpClientConnectorImpl implements HttpClientConnector{
             return responseBody;
 
         } catch (IOException | InterruptedException e) {
-            logger.error("Cannot initialize HTTP connection");
+           log.error("Cannot initialize HTTP connection");
         }
 
         return null;

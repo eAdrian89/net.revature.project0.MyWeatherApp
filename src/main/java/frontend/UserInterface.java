@@ -3,22 +3,27 @@ package frontend;
 import backend.Controllers.CurrentWeather;
 import backend.Controllers.CurrentWeatherDAO;
 import backend.Controllers.CurrentWeatherService;
+import backend.Controllers.ServerController;
+import backend.HttpCilents.WeatherBit.WeatherBitDTO;
 import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
+@Slf4j
 public class UserInterface {
-    private Logger logger = LoggerFactory.getLogger(UserInterface.class);
+
     private final InputValidator inputValidator;
     private final CurrentWeatherService currentWeatherService;
     private final WeatherBitForecastClient weatherBitForecastClient;
     private final CurrentWeather currentWeather;
     private final CurrentWeatherDAO currentWeatherDAO;
+    private final WeatherBitDTO weatherBitDTO;
 
 
     private final String CHECK_CURRENT_WEATHER = Color.BLUE + "Enter City Name to check current weather\n" + Color.RESET;
@@ -37,12 +42,13 @@ public class UserInterface {
             Color.RED + "4 => Close the application \n" + Color.RESET +
             Color.RESET + "↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ " + "\n";
 
-    public UserInterface(InputValidator inputValidator, CurrentWeatherService currentWeatherService, WeatherBitForecastClient weatherBitForecastClient, CurrentWeather currentWeather, CurrentWeatherDAO currentWeatherDAO) {
+    public UserInterface(InputValidator inputValidator, CurrentWeatherService currentWeatherService, WeatherBitForecastClient weatherBitForecastClient, CurrentWeather currentWeather, CurrentWeatherDAO currentWeatherDAO, WeatherBitDTO weatherBitDTO) {
         this.inputValidator = inputValidator;
         this.currentWeatherService = currentWeatherService;
         this.weatherBitForecastClient = weatherBitForecastClient;
         this.currentWeather = currentWeather;
         this.currentWeatherDAO = currentWeatherDAO;
+        this.weatherBitDTO = weatherBitDTO;
     }
 
     public void showMainMenu() {
@@ -75,8 +81,8 @@ public class UserInterface {
 
     private void checkSearchHistory() {
 
-        // ServerController serverController = new ServerController();
-        // serverController.runServer();
+         ServerController serverController = new ServerController();
+         serverController.runServer();
         System.out.println(CHECK_PREVIOUS_REQUESTS);
         List<CurrentWeather> weatherList = currentWeatherDAO.checkSearchHistory();
         for (int i = 0; i < weatherList.size(); i++) {
@@ -106,8 +112,7 @@ public class UserInterface {
             e.printStackTrace();
         }
         System.out.print(".\n\n");
-        weatherBitForecastClient.getWeatherBitForecastWeather(cityName);
-
+       ArrayList <WeatherBitDTO> forecast = weatherBitForecastClient.getWeatherBitForecastWeather(cityName);
 
         String dateToday = weatherBitForecastClient.getDateToday();
         String dateTodayPlusOne = weatherBitForecastClient.getDateTodayPlusOne();

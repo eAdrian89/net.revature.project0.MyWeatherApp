@@ -2,6 +2,11 @@ package backend.HttpCilents.WeatherBit;
 
 import backend.HttpCilents.HttpClientConnector;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.util.ArrayList;
+
 
 
 public class WeatherBitForecastClient {
@@ -172,11 +177,18 @@ public class WeatherBitForecastClient {
         this.weatherBitDTO = weatherBitDTO;
     }
 
-    public void getWeatherBitForecastWeather(String cityName) {
+    public ArrayList getWeatherBitForecastWeather(String cityName) {
         String URL = String.format("https://api.weatherbit.io/v2.0/forecast/daily?city=%s&Days=5&key=%s", cityName, apiKey);
         String responseBody = httpClientConnector.initializeHttpConnection(URL);
 
         WeatherBitDTO weatherBitDTO = gson.fromJson(responseBody, WeatherBitDTO.class);
+
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jo = (JsonObject)jsonParser.parse(responseBody);
+        JsonArray jsonArray = jo.getAsJsonArray("data");
+        ArrayList forecast =gson.fromJson(jsonArray, ArrayList.class);
+
+
         //Today
         String name = weatherBitDTO.getData().get(0).getCity_name();
         String dateToday = weatherBitDTO.getData().get(0).getValid_date();
@@ -250,6 +262,8 @@ public class WeatherBitForecastClient {
         this.windDirectionTodayPlusTwo = windDirectionTodayPlusTwo;
         this.windDirectionTodayPlusThree = windDirectionTodayPlusThree;
         this.windDirectionTodayPlusFour = windDirectionTodayPlusFour;
+
+        return forecast;
 
     }
 }

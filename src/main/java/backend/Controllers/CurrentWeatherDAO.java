@@ -1,5 +1,6 @@
 package backend.Controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,11 +10,11 @@ import java.util.List;
 
 
 import static backend.Controllers.Configuration.*;
-
+@Slf4j
 public class CurrentWeatherDAO {
 
     private final CurrentWeather currentWeather;
-    Logger logger = LoggerFactory.getLogger(CurrentWeatherDAO.class);
+
 
 
     public CurrentWeatherDAO(CurrentWeather currentWeather) {
@@ -57,10 +58,10 @@ public class CurrentWeatherDAO {
                preparedStatement.close();
                connection.close();
            } catch (SQLException e){
-               logger.error("Could not close Data Base Connection");
+               log.error("Could not close Data Base Connection");
            }
         } catch (SQLException e) {
-            logger.error("Could not update data into Data Base");
+            log.error("Could not update data into Data Base");
         }
     }
 
@@ -82,16 +83,17 @@ public class CurrentWeatherDAO {
                 currentWeather.setAVGWindDirection(resultSet.getFloat(9));
                 searchHistory.add(currentWeather);
                 if(preparedStatement == null){
+                    log.info("Saved to Data Base");
                    try {
                        preparedStatement.close();
                        connection.close();
                    }catch (SQLException e){
-                       logger.error("Could not close Data Base connection");
+                       log.error("Could not close Data Base connection");
                    }
                 }
             }
         } catch (SQLException e) {
-            logger.error("Could not receive data from Data Base");
+            log.error("Could not receive data from Data Base");
         }
         return searchHistory;
     }

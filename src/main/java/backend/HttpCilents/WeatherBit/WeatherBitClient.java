@@ -2,12 +2,13 @@ package backend.HttpCilents.WeatherBit;
 
 import backend.HttpCilents.HttpClientConnector;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class WeatherBitClient {
 
-    private Logger logger = LoggerFactory.getLogger(WeatherBitClient.class);
 
     private final Gson gson;
     private final HttpClientConnector httpClientConnector;
@@ -70,9 +71,9 @@ public class WeatherBitClient {
         this.windDirection = windDirection;
 
         if(name == null){
-            logger.error("Cannot connect to WeatherBit API");
+            log.error("Cannot connect to WeatherBit API");
         } else if (name != null){
-        logger.info("Downloaded Data from WeatherBit API");
+        log.info("Downloaded Data from WeatherBit API");
     }
 
         return null;
