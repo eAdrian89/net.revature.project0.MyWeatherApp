@@ -1,12 +1,15 @@
 package frontend;
 
-import backend.Controllers.CurrentWeather;
-import backend.Controllers.CurrentWeatherDAO;
-import backend.Controllers.CurrentWeatherService;
-import backend.Controllers.ServerController;
+import backend.Controllers.*;
 import backend.HttpCilents.WeatherBit.WeatherBitDTO;
 import backend.HttpCilents.WeatherBit.WeatherBitForecastClient;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.startup.Tomcat;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 
 
 import java.text.DecimalFormat;
@@ -15,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-@Slf4j
+//@Slf4j
 public class UserInterface {
 
     private final InputValidator inputValidator;
@@ -75,15 +78,41 @@ public class UserInterface {
                 case 4:
                     System.out.println(CLOSE_APP_MESSAGE);
                     return;
+                case 9:
+                    runTomcat();
+                    break;
             }
         }
     }
 
+    private void runTomcat() {
+     ServerController serverController = new ServerController();
+     serverController.runServer();
+    }
+
+
     private void checkSearchHistory() {
 
-         ServerController serverController = new ServerController();
-         serverController.runServer();
         System.out.println(CHECK_PREVIOUS_REQUESTS);
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.print(".");
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.print(".");
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.print(".\n\n");
+
         List<CurrentWeather> weatherList = currentWeatherDAO.checkSearchHistory();
         for (int i = 0; i < weatherList.size(); i++) {
             System.out.println("Forecast checked at: " + weatherList.get(i).getDate() + ", For City " + weatherList.get(i).getOWCity() + ", Conditions " + weatherList.get(i).getOWDescription() + ", Temperature " + weatherList.get(i).getAVGTemperature() + ", Humidity " + weatherList.get(i).getAVGHumidity() + ", Pressure " + weatherList.get(i).getAVGPressure() + ", Wind Speed " + weatherList.get(i).getAVGWindSpeed() + ", Wind Direction " + weatherList.get(i).getAVGWindDirection());
@@ -335,7 +364,7 @@ public class UserInterface {
         }
         System.out.print(".\n\n");
         currentWeatherService.getOpenWeatherCurrentWeather(cityName);
-        //currentWeatherService.getWeatherStackCurrentWeather(cityName); //250 calls limitation
+        currentWeatherService.getWeatherStackCurrentWeather(cityName); //250 calls limitation
         currentWeatherService.getWeatherBitCurrentWeather(cityName);
         currentWeatherService.save();
         currentWeatherDAO.saveCurrentWeather();

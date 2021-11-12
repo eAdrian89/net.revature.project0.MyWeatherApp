@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import frontend.InputValidator;
 import frontend.UserInterface;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.LifecycleException;
+
 
 
 @Slf4j
@@ -41,7 +41,7 @@ public class MyWeatherApp {
 
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         OptionsParser parser = OptionsParser.newOptionsParser(Arguments.class);
         parser.parseAndExitUponError(args);
         Arguments options = parser.getOptions(Arguments.class);
@@ -49,12 +49,11 @@ public class MyWeatherApp {
         if (options.tomcat.contains("-t")) {
             ServerController serverController = new ServerController();
             serverController.runServer();
-                log.info("Tomcat running at port 8080");
-                  }else
-                 log.info("Tomcat Server not started");
+                         log.info("Tomcat running at port 8080");
+                           }else
+                          log.info("Tomcat Server not started");
         }
     }
-
 
 
 
